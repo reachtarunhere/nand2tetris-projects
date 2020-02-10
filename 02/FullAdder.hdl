@@ -14,11 +14,12 @@ CHIP FullAdder {
 	
 
     PARTS:
+    HalfAdder(a=a, b=b, sum=aSumb, carry=aCarryb);
+    HalfAdder(a=aSumb, b=c, sum=sum, carry=aCarrybCarryc);
+
     // carry=c(a'b+ab') + ab
-    Xor(a=a, b=b, out=aXorb);
-    Xor(a=aXorb, b=c, out=sum);
-    And(a=a, b=b, out=aIb);
-    And(a=c, b=aXorb, out=cIaXorb);
-    Or(a=cIaXorb, b=aIb, out=carry);
+    // aSumb is same as Xor a'b + ab'
+    And(a=c, b=aSumb, out=cAndaSumb);
+    Or(a=cAndaSumb, b=aCarryb, out=carry);
     
 }
