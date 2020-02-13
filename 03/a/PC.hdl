@@ -16,5 +16,10 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // idea is to keep the undefined behaviour in line with the built in chip
+    // priority: reset>load>inc
+    Mux4Way16(a=incrementedOut, b=in, sel[1]=reset, sel[0]=load, out=muxOut);
+    Or8Way(in[0]=reset, in[1]=load, in[2]=inc, out=loadRegister);
+    Register(in=muxOut, load=loadRegister, out=out, out=incInput);
+    Inc16(in=incInput, out=incrementedOut);
 }
